@@ -1,0 +1,25 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - jackpotkeywordsApiKey
+    properties:
+      jackpotkeywordsApiKey:
+        type: string
+        title: JackpotKeywords API Key
+        description: API key from your JackpotKeywords developer page at https://jackpotkeywords.web.app/developers. Format jk_live_...
+      jackpotkeywordsApiBase:
+        type: string
+        title: API Base URL (optional)
+        description: Override the API base. Default https://jackpotkeywords.web.app/api/v1
+        default: https://jackpotkeywords.web.app/api/v1
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', 'jackpotkeywords-mcp-server'],
+      env: {
+        JACKPOTKEYWORDS_API_KEY: config.jackpotkeywordsApiKey,
+        ...(config.jackpotkeywordsApiBase ? { JACKPOTKEYWORDS_API_BASE: config.jackpotkeywordsApiBase } : {})
+      }
+    })

@@ -1,0 +1,53 @@
+{
+  "name": "jackpotkeywords-mcp-server",
+  "version": "0.1.2",
+  "mcpName": "io.github.smythmyke/jackpotkeywords-mcp-server",
+  "description": "MCP server for JackpotKeywords — AI-powered keyword research and AI-visibility scans via REST API",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "jackpotkeywords-mcp-server": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "ai",
+    "keyword-research",
+    "seo",
+    "aeo",
+    "jackpotkeywords",
+    "claude",
+    "cursor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smythmyke/jackpotkeywords-mcp-server"
+  },
+  "homepage": "https://jackpotkeywords.web.app/developers",
+  "bugs": {
+    "url": "https://github.com/smythmyke/JackpotKeywords/issues",
+    "email": "smythmyke@gmail.com"
+  }
+}

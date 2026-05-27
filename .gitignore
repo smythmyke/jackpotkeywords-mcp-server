@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.env
+.env.local
+
+# Local tools downloaded for one-off tasks
+mcp-publisher.exe
+mcp-publisher
+*.tar.gz
