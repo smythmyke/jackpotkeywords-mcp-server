@@ -8,3 +8,6 @@ dist/
 mcp-publisher.exe
 mcp-publisher
 *.tar.gz
+
+# .mcpb bundles are build artifacts — regen via mcpb pack + Python patch script
+*.mcpb

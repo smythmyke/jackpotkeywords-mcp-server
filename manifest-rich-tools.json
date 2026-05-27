@@ -1,0 +1,65 @@
+[
+  {
+    "name": "jackpotkeywords_credit_balance",
+    "description": "Return the current JackpotKeywords credit balance for the authenticated account. Use this before calling /recommend or /aeo-scan to verify the account has credits available.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "jackpotkeywords_recommend",
+    "description": "Run the full keyword research pipeline for a product and return ranked keyword recommendations by composite Jackpot Score (volume, CPC, competition, trend, cluster strength, AI relevance). Backed by real Google Ads Keyword Planner data. Costs $0.10 per call (10 cents, regardless of limit). Refunded automatically on pipeline failure. Latency ~60-180 seconds.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Product URL to extract context from. At least one of url/description required."
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain-English description of the product. At least one of url/description required."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Maximum recommendations to return. Default 50, max 200. Cost is flat regardless.",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "budget": {
+          "type": "number",
+          "description": "Optional daily ad budget in USD. Influences AI scoring/intent classification."
+        },
+        "location": {
+          "type": "string",
+          "description": "Optional location for local-intent boosting (e.g., San Francisco, CA)."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "jackpotkeywords_aeo_scan",
+    "description": "Run an AI-visibility scan for a product URL. Asks 10 buyer-intent queries against Gemini grounded search and reports, per query: whether the URL was cited as a source, mentioned in the answer text, or absent - plus the top sources the AI did cite. Costs $1.00 per scan (100 cents). Refunded automatically on failure. Latency ~30-120 seconds.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Product URL to scan (e.g., https://yourproduct.com). Required."
+        },
+        "productContext": {
+          "type": "object",
+          "description": "Optional pre-extracted product context. Pass only if youve already called /v1/recommend or have a known-good ProductContext.",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "additionalProperties": false
+    }
+  }
+]
