@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required": ["JACKPOTKEYWORDS_API_KEY"],
+  "properties": {
+    "JACKPOTKEYWORDS_API_KEY": {
+      "type": "string",
+      "title": "JackpotKeywords API Key",
+      "description": "API key from https://jackpotkeywords.web.app/developers. Format jk_live_... — self-serve, $5 starter credit, no card required."
+    },
+    "JACKPOTKEYWORDS_API_BASE": {
+      "type": "string",
+      "title": "API Base URL (optional)",
+      "description": "Override the API base URL. Default https://jackpotkeywords.web.app/api/v1",
+      "default": "https://jackpotkeywords.web.app/api/v1"
+    }
+  }
+}
