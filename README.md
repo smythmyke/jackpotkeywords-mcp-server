@@ -3,6 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/jackpotkeywords-mcp-server.svg)](https://www.npmjs.com/package/jackpotkeywords-mcp-server)
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-active-2da44e)](https://registry.modelcontextprotocol.io/v0/servers?search=jackpotkeywords)
 [![Glama](https://img.shields.io/badge/Glama-listed-blue)](https://glama.ai/mcp/servers/smythmyke/jackpotkeywords-mcp-server)
+[![smithery badge](https://smithery.ai/badge/smythmyke/jackpotkeywords-mcp-server)](https://smithery.ai/servers/smythmyke/jackpotkeywords-mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 MCP (Model Context Protocol) server for [JackpotKeywords](https://jackpotkeywords.web.app) — AI-powered keyword research and AI-visibility scanning. Lets Claude Code, Claude Desktop, Cursor, Windsurf, and other MCP-compatible clients call JackpotKeywords directly.
