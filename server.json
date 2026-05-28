@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.smythmyke/jackpotkeywords-mcp-server",
-  "description": "AI-powered keyword research and AI-visibility scans via the JackpotKeywords REST API.",
-  "version": "0.1.2",
+  "description": "AI-powered keyword research, SEO audits, and AI-visibility scans via the JackpotKeywords REST API.",
+  "version": "0.2.0",
   "repository": {
     "url": "https://github.com/smythmyke/JackpotKeywords",
     "source": "github",
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "identifier": "jackpotkeywords-mcp-server",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "transport": {
         "type": "stdio"
       },

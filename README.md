@@ -6,13 +6,13 @@
 [![smithery badge](https://smithery.ai/badge/smythmyke/jackpotkeywords-mcp-server)](https://smithery.ai/servers/smythmyke/jackpotkeywords-mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-MCP (Model Context Protocol) server for [JackpotKeywords](https://jackpotkeywords.web.app) — AI-powered keyword research and AI-visibility scanning. Lets Claude Code, Claude Desktop, Cursor, Windsurf, and other MCP-compatible clients call JackpotKeywords directly.
+MCP (Model Context Protocol) server for [JackpotKeywords](https://jackpotkeywords.web.app) — AI-powered keyword research, SEO audits, and AI-visibility scanning. Lets Claude Code, Claude Desktop, Cursor, Windsurf, and other MCP-compatible clients call JackpotKeywords directly.
 
-Three tools available: `jackpotkeywords_credit_balance`, `jackpotkeywords_recommend`, `jackpotkeywords_aeo_scan`.
+Five tools available: `jackpotkeywords_credit_balance`, `jackpotkeywords_recommend`, `jackpotkeywords_recommend_deep`, `jackpotkeywords_audit`, `jackpotkeywords_aeo_scan`.
 
 ## Prerequisites
 
-1. A JackpotKeywords API key — generate one at https://jackpotkeywords.web.app/developers (instant, self-serve, $5 starter credit, no card required).
+1. A JackpotKeywords API key — generate one at https://jackpotkeywords.web.app/developers (instant, self-serve, $2 starter credit, no card required).
 2. Node.js 18 or newer (only if installing locally; `npx` doesn't require a local Node.js if your MCP client bundles one).
 
 ## Configure in Claude Code
@@ -109,6 +109,42 @@ Returns: top 25 recommendations as a readable table in `content`, with the full 
 
 > Use jackpotkeywords_recommend on https://bulklistingpro.com — find keywords I should target for SEO and Google Ads for an eBay bulk listing tool. Limit 50.
 
+### `jackpotkeywords_recommend_deep`
+
+Same inputs as `jackpotkeywords_recommend`, with two server-side additions: competitor discovery runs in parallel with autocomplete (broadens the keyword set with competitor-derived seeds), and the response surfaces the cluster + category + competitor-brand aggregates that the standard recommend tool discards.
+
+**Cost: $0.30 per call** (flat — regardless of `limit`). Refunded on pipeline failure. Latency ~75–200s.
+
+| Argument | Type | Required | Description |
+|---|---|---|---|
+| `url` | string | one-of | Product URL to extract context from |
+| `description` | string | one-of | Plain-English product description |
+| `limit` | number | no | Max recommendations to return. Default 50, max 200. Clusters/categories/competitors not truncated. |
+| `budget` | number | no | Daily ad budget in USD (influences AI scoring) |
+| `location` | string | no | Location for local-intent boosting |
+
+Returns: top 25 recommendations + top 8 clusters + category distribution + competitor brands in `content`, with full data in `structuredContent`.
+
+**Example prompt:**
+
+> Use jackpotkeywords_recommend_deep on https://markitup.app — show me the keyword clusters and competitor brands.
+
+### `jackpotkeywords_audit`
+
+Runs an SEO audit on a URL. Crawls the primary page plus up to 8 priority secondary pages, runs deterministic checks across technical / content / crawlability / structured data / local / social-sharing categories, and uses Gemini for keyword-gap identification + prioritized recommendations. AEO data is not bundled — use `jackpotkeywords_aeo_scan` for that.
+
+**Cost: $0.50 per audit** (refunded on failure). Latency ~20–60s.
+
+| Argument | Type | Required | Description |
+|---|---|---|---|
+| `url` | string | yes | URL to audit |
+
+Returns: overall score + per-category scores + top failing/warning checks + top keyword gaps + top recommendations in `content`. Full check list, per-page results, and all gaps/recs in `structuredContent`.
+
+**Example prompt:**
+
+> Run jackpotkeywords_audit on https://markitup.app and tell me the top 3 things I should fix.
+
 ### `jackpotkeywords_aeo_scan`
 
 Runs an AI-visibility scan. Asks 10 buyer-intent queries about your product through Gemini's grounded search and reports, per query: whether the URL was cited as a source, mentioned in the answer text, or absent — plus the top sources the AI did cite.
@@ -135,10 +171,12 @@ Returns: visibility score + per-query results in `content`, full structured data
 
 ## Pricing reference
 
-- `$5 starter credit` on signup (no card, no expiration)
-- `/v1/recommend` — $0.10/call (≈ 50 calls per $5)
-- `/v1/aeo-scan` — $1.00/call (≈ 5 calls per $5)
-- Topup via Stripe checkout (`POST /v1/topup`) in $25 / $100 / $500 packs or custom ≥ $25
+- `$2 starter credit` on signup (no card, no expiration)
+- `/v1/recommend` — $0.10/call
+- `/v1/recommend-deep` — $0.30/call (adds clusters + categories + competitors)
+- `/v1/audit` — $0.50/audit (SEO only; pair with `/v1/aeo-scan` for AI-visibility)
+- `/v1/aeo-scan` — $1.00/scan
+- Topup via Stripe checkout (`POST /v1/topup`) in $5 / $25 / $100 / $500 packs or custom ≥ $5
 - Rate limit: 60 requests/min, 1000/hr per key
 
 ## Local development

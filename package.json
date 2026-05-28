@@ -1,6 +1,6 @@
 {
   "name": "jackpotkeywords-mcp-server",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "mcpName": "io.github.smythmyke/jackpotkeywords-mcp-server",
   "description": "MCP server for JackpotKeywords — AI-powered keyword research and AI-visibility scans via REST API",
   "license": "MIT",

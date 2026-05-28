@@ -3,7 +3,7 @@
 // /v1/recommend and /v1/aeo-scan routinely take 30-180s. The direct URL has
 // no edge timeout. See incident 2026-05-25.
 const DEFAULT_API_BASE = "https://us-central1-even-plate-378520.cloudfunctions.net/api/api/v1";
-const USER_AGENT = "jackpotkeywords-mcp-server/0.1.2";
+const USER_AGENT = "jackpotkeywords-mcp-server/0.2.0";
 
 export interface ApiClientOptions {
   apiKey: string;

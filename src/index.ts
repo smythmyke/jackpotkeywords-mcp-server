@@ -9,10 +9,12 @@ import {
 import { JackpotApiClient, JackpotApiError } from "./api/client.js";
 import { balanceTool, runBalance } from "./tools/balance.js";
 import { recommendTool, runRecommend } from "./tools/recommend.js";
+import { recommendDeepTool, runRecommendDeep } from "./tools/recommendDeep.js";
+import { auditTool, runAudit } from "./tools/audit.js";
 import { aeoScanTool, runAeoScan } from "./tools/aeoScan.js";
 
 const SERVER_NAME = "jackpotkeywords";
-const SERVER_VERSION = "0.1.2";
+const SERVER_VERSION = "0.2.0";
 
 function readEnv(name: string, required = true): string {
   const value = process.env[name];
@@ -39,6 +41,8 @@ async function main(): Promise<void> {
   const tools: Tool[] = [
     balanceTool as unknown as Tool,
     recommendTool as unknown as Tool,
+    recommendDeepTool as unknown as Tool,
+    auditTool as unknown as Tool,
     aeoScanTool as unknown as Tool,
   ];
 
@@ -52,6 +56,10 @@ async function main(): Promise<void> {
           return await runBalance(api);
         case recommendTool.name:
           return await runRecommend(api, args ?? {});
+        case recommendDeepTool.name:
+          return await runRecommendDeep(api, args ?? {});
+        case auditTool.name:
+          return await runAudit(api, args ?? {});
         case aeoScanTool.name:
           return await runAeoScan(api, args ?? {});
         default:

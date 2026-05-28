@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "jackpotkeywords-mcp-server",
   "display_name": "JackpotKeywords MCP Server",
-  "version": "0.1.2",
-  "description": "MCP server for JackpotKeywords — AI keyword research and AI-visibility (AEO) scanning. Three tools: keyword recommendations ranked by composite Jackpot Score, AEO scan via Gemini grounded search, and credit balance lookup.",
-  "long_description": "MCP (Model Context Protocol) server for [JackpotKeywords](https://jackpotkeywords.web.app), an AI-powered keyword research and AI-visibility scanning service.\n\nLets Claude Code, Claude Desktop, Cursor, Windsurf, and any other MCP-compatible client run keyword research and answer-engine-optimization (AEO) scans directly from a chat prompt.\n\n## Tools (3)\n\n- **jackpotkeywords_recommend** — full keyword pipeline for a product URL or description. Returns up to 200 recommendations ranked by composite Jackpot Score (real Google Ads volume/CPC/competition + AI relevance). $0.10/call.\n- **jackpotkeywords_aeo_scan** — fires 10 buyer-intent queries through Gemini's grounded search and reports per-query whether your URL was cited, mentioned, or absent. $1.00/scan.\n- **jackpotkeywords_credit_balance** — free balance check.\n\nGet your API key at https://jackpotkeywords.web.app/developers (self-serve, $5 starter credit, no card required).",
+  "version": "0.2.0",
+  "description": "MCP server for JackpotKeywords — AI keyword research, SEO audits, and AI-visibility (AEO) scanning. Five tools: keyword recommendations (standard and deep), SEO audit, AEO scan via Gemini grounded search, and credit balance.",
+  "long_description": "MCP (Model Context Protocol) server for [JackpotKeywords](https://jackpotkeywords.web.app), an AI-powered keyword research, SEO audit, and AI-visibility scanning service.\n\nLets Claude Code, Claude Desktop, Cursor, Windsurf, and any other MCP-compatible client run keyword research, SEO audits, and answer-engine-optimization (AEO) scans directly from a chat prompt.\n\n## Tools (5)\n\n- **jackpotkeywords_recommend** — full keyword pipeline for a product URL or description. Returns up to 200 recommendations ranked by composite Jackpot Score (real Google Ads volume/CPC/competition + AI relevance). $0.10/call.\n- **jackpotkeywords_recommend_deep** — same inputs as recommend, plus parallel competitor discovery and cluster/category/competitor-brand aggregates in the response. Built for agencies and consultants. $0.30/call.\n- **jackpotkeywords_audit** — SEO audit on a URL. Crawls primary + secondary pages, scores across technical/content/crawlability/structured-data/local/social-sharing, returns keyword gaps and prioritized recommendations. AEO sold separately. $0.50/audit.\n- **jackpotkeywords_aeo_scan** — fires 10 buyer-intent queries through Gemini's grounded search and reports per-query whether your URL was cited, mentioned, or absent. $1.00/scan.\n- **jackpotkeywords_credit_balance** — free balance check.\n\nGet your API key at https://jackpotkeywords.web.app/developers (self-serve, $2 starter credit, no card required).",
   "author": {
     "name": "Michael Smyth",
     "url": "https://github.com/smythmyke"
@@ -72,11 +72,19 @@
   "tools": [
     {
       "name": "jackpotkeywords_credit_balance",
-      "description": "Return the current JackpotKeywords credit balance for the authenticated account. Use this before calling /recommend or /aeo-scan to verify the account has credits available."
+      "description": "Return the current JackpotKeywords credit balance for the authenticated account. Use this before calling paid tools to verify the account has credits available."
     },
     {
       "name": "jackpotkeywords_recommend",
       "description": "Run the full keyword research pipeline for a product and return ranked keyword recommendations by composite Jackpot Score (volume, CPC, competition, trend, cluster strength, AI relevance). Backed by real Google Ads Keyword Planner data. Costs $0.10 per call (10 cents, regardless of limit). Refunded automatically on pipeline failure. Latency ~60-180 seconds."
+    },
+    {
+      "name": "jackpotkeywords_recommend_deep",
+      "description": "Run the deep keyword research pipeline. Same inputs as jackpotkeywords_recommend, plus parallel competitor discovery (broadens the keyword set) and returns cluster + category + competitor-brand aggregates. Use when you need to see WHICH keyword clusters matter and WHO else is ranking, in one call. Costs $0.30 per call (30 cents, regardless of limit). Refunded automatically on pipeline failure. Latency ~75-200 seconds."
+    },
+    {
+      "name": "jackpotkeywords_audit",
+      "description": "Run an SEO audit on a URL. Crawls primary + up to 8 secondary pages, checks technical/content/crawlability/structured-data/local/social-sharing categories, returns scored checks, per-page issues, keyword gaps, and prioritized recommendations. AEO data is NOT bundled (use jackpotkeywords_aeo_scan for that). Costs $0.50 per audit (50 cents). Refunded on failure. Latency ~20-60 seconds."
     },
     {
       "name": "jackpotkeywords_aeo_scan",
