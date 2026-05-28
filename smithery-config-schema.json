@@ -5,7 +5,7 @@
     "JACKPOTKEYWORDS_API_KEY": {
       "type": "string",
       "title": "JackpotKeywords API Key",
-      "description": "API key from https://jackpotkeywords.web.app/developers. Format jk_live_... — self-serve, $5 starter credit, no card required."
+      "description": "API key from https://jackpotkeywords.web.app/developers. Format jk_live_... — self-serve, $2 starter credit, no card required."
     },
     "JACKPOTKEYWORDS_API_BASE": {
       "type": "string",

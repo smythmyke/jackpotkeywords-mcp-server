@@ -72,23 +72,111 @@
   "tools": [
     {
       "name": "jackpotkeywords_credit_balance",
-      "description": "Return the current JackpotKeywords credit balance for the authenticated account. Use this before calling paid tools to verify the account has credits available."
+      "description": "Return the current JackpotKeywords credit balance for the authenticated account. Use this before calling paid tools to verify the account has credits available.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
     },
     {
       "name": "jackpotkeywords_recommend",
-      "description": "Run the full keyword research pipeline for a product and return ranked keyword recommendations by composite Jackpot Score (volume, CPC, competition, trend, cluster strength, AI relevance). Backed by real Google Ads Keyword Planner data. Costs $0.10 per call (10 cents, regardless of limit). Refunded automatically on pipeline failure. Latency ~60-180 seconds."
+      "description": "Run the full keyword research pipeline for a product and return ranked keyword recommendations by composite Jackpot Score (volume, CPC, competition, trend, cluster strength, AI relevance). Backed by real Google Ads Keyword Planner data. Costs $0.10 per call (10 cents, regardless of limit). Refunded automatically on pipeline failure. Latency ~60-180 seconds.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Product URL to extract context from. At least one of url/description required."
+          },
+          "description": {
+            "type": "string",
+            "description": "Plain-English description of the product. At least one of url/description required."
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum recommendations to return. Default 50, max 200. Cost is flat regardless.",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "budget": {
+            "type": "number",
+            "description": "Optional daily ad budget in USD. Influences AI scoring/intent classification."
+          },
+          "location": {
+            "type": "string",
+            "description": "Optional location for local-intent boosting (e.g., San Francisco, CA)."
+          }
+        },
+        "additionalProperties": false
+      }
     },
     {
       "name": "jackpotkeywords_recommend_deep",
-      "description": "Run the deep keyword research pipeline. Same inputs as jackpotkeywords_recommend, plus parallel competitor discovery (broadens the keyword set) and returns cluster + category + competitor-brand aggregates. Use when you need to see WHICH keyword clusters matter and WHO else is ranking, in one call. Costs $0.30 per call (30 cents, regardless of limit). Refunded automatically on pipeline failure. Latency ~75-200 seconds."
+      "description": "Run the deep keyword research pipeline. Same inputs as jackpotkeywords_recommend, plus parallel competitor discovery (broadens the keyword set) and returns cluster + category + competitor-brand aggregates. Use when you need to see WHICH keyword clusters matter and WHO else is ranking, in one call. Costs $0.30 per call (30 cents, regardless of limit). Refunded automatically on pipeline failure. Latency ~75-200 seconds.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Product URL to extract context from. At least one of url/description required."
+          },
+          "description": {
+            "type": "string",
+            "description": "Plain-English description of the product. At least one of url/description required."
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum recommendations to return. Default 50, max 200. Clusters/categories/competitors are not truncated.",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "budget": {
+            "type": "number",
+            "description": "Optional daily ad budget in USD. Influences AI scoring/intent classification."
+          },
+          "location": {
+            "type": "string",
+            "description": "Optional location for local-intent boosting (e.g., San Francisco, CA)."
+          }
+        },
+        "additionalProperties": false
+      }
     },
     {
       "name": "jackpotkeywords_audit",
-      "description": "Run an SEO audit on a URL. Crawls primary + up to 8 secondary pages, checks technical/content/crawlability/structured-data/local/social-sharing categories, returns scored checks, per-page issues, keyword gaps, and prioritized recommendations. AEO data is NOT bundled (use jackpotkeywords_aeo_scan for that). Costs $0.50 per audit (50 cents). Refunded on failure. Latency ~20-60 seconds."
+      "description": "Run an SEO audit on a URL. Crawls primary + up to 8 secondary pages, checks technical/content/crawlability/structured-data/local/social-sharing categories, returns scored checks, per-page issues, keyword gaps, and prioritized recommendations. AEO data is NOT bundled (use jackpotkeywords_aeo_scan for that). Costs $0.50 per audit (50 cents). Refunded on failure. Latency ~20-60 seconds.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL to audit (e.g., https://yourproduct.com or yourproduct.com). Required."
+          }
+        },
+        "required": ["url"],
+        "additionalProperties": false
+      }
     },
     {
       "name": "jackpotkeywords_aeo_scan",
-      "description": "Run an AI-visibility scan for a product URL. Asks 10 buyer-intent queries against Gemini grounded search and reports, per query: whether the URL was cited as a source, mentioned in the answer text, or absent - plus the top sources the AI did cite. Costs $1.00 per scan (100 cents). Refunded automatically on failure. Latency ~30-120 seconds."
+      "description": "Run an AI-visibility scan for a product URL. Asks 10 buyer-intent queries against Gemini grounded search and reports, per query: whether the URL was cited as a source, mentioned in the answer text, or absent - plus the top sources the AI did cite. Costs $1.00 per scan (100 cents). Refunded automatically on failure. Latency ~30-120 seconds.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Product URL to scan (e.g., https://yourproduct.com). Required."
+          },
+          "productContext": {
+            "type": "object",
+            "description": "Optional pre-extracted product context. Pass only if you've already called /v1/recommend or have a known-good ProductContext.",
+            "additionalProperties": true
+          }
+        },
+        "required": ["url"],
+        "additionalProperties": false
+      }
     }
   ]
 }
